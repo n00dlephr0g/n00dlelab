@@ -1,2 +1,2 @@
-# n00dlelab-docs
+# n00dlelab
 documentation for homelab
