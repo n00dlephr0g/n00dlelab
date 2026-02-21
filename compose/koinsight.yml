@@ -1,0 +1,16 @@
+name: koinsight
+services:
+  koinsight:
+    container_name: koinsight
+    image: ghcr.io/georgesg/koinsight:latest
+    restart: unless-stopped
+    ports:
+      - "${PORT}:3000"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - public
+
+networks:
+  public:
+    external: true

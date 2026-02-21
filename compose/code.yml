@@ -1,0 +1,22 @@
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code_server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - /home/n00dlephr0g/.ssh:/config/.ssh 
+      - /home/n00dlephr0g/repos:/config/repos
+      - /home/n00dlephr0g/docker:/config/docker
+    ports:
+      - ${PORT}:8443
+    restart: unless-stopped
+    networks:
+      - public
+
+networks:
+  public:
+    external: true

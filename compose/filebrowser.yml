@@ -1,0 +1,19 @@
+services:
+  filebrowser:
+    container_name: filebrowser
+    image: hurlenko/filebrowser
+    ports:
+      - ${PORT}:8080
+    volumes:
+      - /data:/data
+      - ~/docker:/data/docker
+      - ./config:/config
+    environment:
+      - FB_BASE_URL=/
+    restart: always
+    networks:
+      - public
+
+networks:
+  public:
+    external: true
