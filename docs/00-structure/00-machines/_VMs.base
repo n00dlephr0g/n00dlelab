@@ -1,19 +1,25 @@
+filters:
+  and:
+    - file.tags.containsAll("machine", "virtual")
 views:
   - type: table
     name: Table
-    filters:
-      and:
-        - file.tags.contains("machine")
-        - '!file.tags.contains("deprecated")'
     order:
       - file.name
       - IP
       - Hostname
+      - OS
       - Host
       - Interfaces
       - file.tags
+    sort:
+      - property: IP
+        direction: ASC
     columnSize:
       file.name: 162
+      note.IP: 118
+      note.Hostname: 85
+      note.OS: 108
+      note.Host: 107
       note.Interfaces: 111
-      note.Host: 133
       file.tags: 193

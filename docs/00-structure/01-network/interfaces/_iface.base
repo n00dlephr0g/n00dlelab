@@ -6,5 +6,4 @@ views:
         - file.tags.contains("interface")
     order:
       - file.name
-      - Type
       - Links

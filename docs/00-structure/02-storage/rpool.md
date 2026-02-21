@@ -2,11 +2,11 @@
 tags:
   - storage
   - zfs
+parent: "[[nvme-ssd-1tb_server]]"
+mountpoint: /rpool
+symlinks:
 ---
-# Disk
-[[nvme-ssd-1tb_server]]
-
-
+primary volume of [[thinkcentre-m710s_1|scallop]]
 # Topology
 Primary volume of [[thinkcentre-m710s_1|ThinkCentre M710s 1]]
 

@@ -10,10 +10,11 @@ aliases:
 Quantity: 1
 IP:
   - 192.168.0.x/24
-  - 10.10.0.2
+  - 10.10.1.1
 Interfaces:
   - "[[scallop-eth0|eth0]]"
 Hostname: scallop
+OS: "[[proxmox]]"
 ---
 # CPU
 [[i5-7400|i5 7400 1]]

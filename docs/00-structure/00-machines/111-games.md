@@ -7,4 +7,6 @@ tags:
   - machine
   - virtual
 Hostname: games
+OS: "[[ubuntu-server]]"
+Host: "[[thinkcentre-m710s_1|scallop]]"
 ---
