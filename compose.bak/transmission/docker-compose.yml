@@ -1,0 +1,21 @@
+services:
+  transmission:
+    container_name: transmission
+    image: linuxserver/transmission
+    ports:
+      - ${PORT}:9091
+    volumes:
+      - ./config:/config
+      - /data/downloads:/downloads
+      - /data/downloads/torrents:/watch
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
+    restart: unless-stopped
+    networks:
+      - public
+
+networks:
+  public:
+    external: true

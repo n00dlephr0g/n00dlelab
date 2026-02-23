@@ -1,0 +1,58 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server:latest # Ensure this is a recent tag compatible with Java 17+ (e.g., 'latest' or 'java17')
+    container_name: atm
+    ports:
+      - "${PORT}:25565" # Minecraft server port
+
+    environment:
+      # REQUIRED: Accept the Minecraft EULA
+      EULA: "TRUE"
+
+      # --- Auto CurseForge Configuration ---
+      MODPACK_PLATFORM: "AUTO_CURSEFORGE"
+      # Reference the API key from the .env file
+      CF_API_KEY: $CF_API_KEY 
+
+      # Specify the modpack
+      # You can use CF_PAGE_URL or CF_SLUG
+      CF_SLUG: "all-the-mods-10" 
+      # Or, if you prefer using the URL:
+      # CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/all-the-mods-9-to-the-sky"
+
+      # Optional: Pin to a specific modpack file version (recommended for stability)
+      # You need to get the File ID from the CurseForge modpack's "Files" tab
+      # For ATM9 Sky 1.1.8, you'd find the file and its ID (example ID: 5040186 for 1.1.8)
+      # CF_FILE_ID: "5040186" # <--- REPLACE with the actual File ID for ATM9 Sky 1.1.8
+
+      # --- Memory Allocation ---
+      INIT_MEMORY: "500M" # Max RAM: 10GB. Adjust as needed.
+      MEMORY: "10G" # Min RAM: 6GB.
+
+      # --- User Permissions (Recommended) ---
+      UID: "1000" # Replace with your user's UID (id -u yourusername)
+      GID: "1000" # Replace with your user's GID (id -g yourusername)
+
+      # --- Timezone (Optional) ---
+      TZ: "Australia/Sydney" # Adjust to your specific Australian timezone
+
+    volumes:
+      # This volume is where the server data (world, config, mods) will be stored persistently.
+      # The itzg/minecraft-server image handles downloading/installing into /data internally.
+      - ./data:/data 
+
+    restart: unless-stopped
+
+    networks:
+      - public
+
+    healthcheck:
+      test: ["CMD", "mc-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5m
+
+networks:
+  public:
+    external: true
