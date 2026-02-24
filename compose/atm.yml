@@ -3,7 +3,7 @@ services:
     image: itzg/minecraft-server:latest # Ensure this is a recent tag compatible with Java 17+ (e.g., 'latest' or 'java17')
     container_name: atm
     ports:
-      - "${PORT}:25565" # Minecraft server port
+      - "${ATM_PORT}:25565" # Minecraft server port
 
     environment:
       # REQUIRED: Accept the Minecraft EULA

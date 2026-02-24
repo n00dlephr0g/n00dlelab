@@ -1,0 +1,13 @@
+# service name: (omit ".yml")
+#   - env name (omit ".env") 
+
+
+# core services
+immich:
+  - immich
+
+# minecraft servers
+atm:
+  - atm
+  - mc
+
