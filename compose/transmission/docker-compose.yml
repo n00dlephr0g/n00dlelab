@@ -5,17 +5,12 @@ services:
     ports:
       - ${PORT}:9091
     volumes:
-      - ./config:/config
-      - /data/downloads:/downloads
-      - /data/downloads/torrents:/watch
+      - /persist/transmission:/config
+      - ${DOWNLOADS}:/downloads
+      - ${DOWNLOADS}/torrents:/watch
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Australia/Melbourne
     restart: unless-stopped
-    networks:
-      - public
 
-networks:
-  public:
-    external: true

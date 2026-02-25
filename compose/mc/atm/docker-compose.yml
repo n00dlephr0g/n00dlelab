@@ -43,16 +43,9 @@ services:
 
     restart: unless-stopped
 
-    networks:
-      - public
-
     healthcheck:
       test: ["CMD", "mc-health"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 5m
-
-networks:
-  public:
-    external: true
