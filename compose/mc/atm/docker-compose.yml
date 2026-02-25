@@ -1,7 +1,7 @@
 services:
   minecraft:
     image: itzg/minecraft-server:latest # Ensure this is a recent tag compatible with Java 17+ (e.g., 'latest' or 'java17')
-    container_name: atm
+    container_name: ${NAME}
     ports:
       - "${PORT}:25565" # Minecraft server port
 
@@ -39,7 +39,7 @@ services:
     volumes:
       # This volume is where the server data (world, config, mods) will be stored persistently.
       # The itzg/minecraft-server image handles downloading/installing into /data internally.
-      - ./data:/data 
+      - /persist/mc/${NAME}:/data 
 
     restart: unless-stopped
 

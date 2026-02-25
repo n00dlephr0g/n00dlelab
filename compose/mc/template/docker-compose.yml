@@ -1,0 +1,35 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server:latest # Ensure this is a recent tag compatible with Java 17+ (e.g., 'latest' or 'java17')
+    container_name: ${NAME}
+    ports:
+      - "${PORT}:25565" # Minecraft server port
+
+    environment:
+      EULA: "TRUE"
+      CF_API_KEY: $CF_API_KEY 
+      UID: "1000"
+      GID: "1000"
+      TZ: "Australia/Melbourne" 
+
+      # --- Memory Allocation ---
+      # "XXG" for GB, "XXM" for MB
+      INIT_MEMORY: "1G" # Max RAM: 10GB. Adjust as needed.
+      MEMORY: "4G" # Min RAM: 6GB.
+
+      # --- Auto CurseForge Configuration ---
+      # UNCOMMENT FOR MODPACK
+      # MODPACK_PLATFORM: "AUTO_CURSEFORGE"
+      # CF_SLUG: "CF SLUG HERE"
+
+    volumes:
+      - /persist/mc/${NAME}:/data 
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "mc-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5m

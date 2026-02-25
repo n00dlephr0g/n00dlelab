@@ -4,14 +4,14 @@ services:
   immich:
     container_name: immich
     image: ghcr.io/immich-app/immich-server:${VERSION:-release}
-    extends:
-      file: hwaccel.transcoding.yml
-      service: nvenc # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    # extends:
+      # file: hwaccel.transcoding.yml
+      # service: nvenc # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     env_file:
       - .env
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${LIBRARY_LOCATION}:/usr/src/app/upload
       - ${CACHE_LOCATION}/encoded-video:/usr/src/app/upload/encoded-video
       - ${CACHE_LOCATION}/thumbnails:/usr/src/app/upload/thumbs
       - /etc/localtime:/etc/localtime:ro
@@ -23,18 +23,15 @@ services:
     restart: always
     healthcheck:
       disable: false
-    networks:
-      - internal
-      - public
 
   immich-machine-learning:
     container_name: immich_machine_learning
     # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
     # Example tag: ${IMMICH_VERSION:-release}-cuda
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
-    extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
-      file: hwaccel.ml.yml
-      service: cuda # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
+      # file: hwaccel.ml.yml
+      # service: cuda # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
     volumes:
       - model-cache:/cache
     env_file:
@@ -42,8 +39,6 @@ services:
     restart: always
     healthcheck:
       disable: false
-    networks:
-      - internal
 
   redis:
     container_name: immich_redis
@@ -51,8 +46,6 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
-    networks:
-      - internal
 
   database:
     container_name: immich_postgres
@@ -70,14 +63,7 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
-    networks:
-      - internal
 
 volumes:
   model-cache:
 
-networks:
-  internal:
-    driver: bridge
-  public:
-    external: true
