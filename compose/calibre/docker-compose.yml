@@ -43,9 +43,8 @@ services:
     # cap_add:
     #   - NET_BIND_SERVICE
     restart: unless-stopped
-    networks:
-      - proxy
+    networks: [global]
 
 networks:
-  proxy:
+  global:
     external: true
