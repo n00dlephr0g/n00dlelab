@@ -6,15 +6,11 @@ services:
     ports:
       - '3999:3000'
     user: "1000:1000"
-    networks:
-      - proxy
-      - prometheus
+    networks: [global]
     volumes:
       - /persist/grafana:/var/lib/grafana
 
 
 networks:
-  proxy:
-    external: true
-  prometheus:
+  global:
     external: true
