@@ -17,9 +17,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - '${PORT}:2283'
-    networks:
-      - proxy
-      - internal
+    networks: [global, internal]
     depends_on:
       - redis
       - database
@@ -32,8 +30,7 @@ services:
     # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
     # Example tag: ${IMMICH_VERSION:-release}-cuda
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
-    networks:
-      - internal
+    networks: [internal]
     # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
       # file: hwaccel.ml.yml
       # service: cuda # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
@@ -48,8 +45,7 @@ services:
   redis:
     container_name: immich_redis
     image: docker.io/redis:6.2-alpine@sha256:148bb5411c184abd288d9aaed139c98123eeb8824c5d3fce03cf721db58066d8
-    networks:
-      - internal
+    networks: [internal]
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
@@ -57,8 +53,7 @@ services:
   database:
     container_name: immich_postgres
     image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
-    networks:
-      - internal
+    networks: [internal]
     env_file:
       - .env
     environment:
@@ -79,5 +74,5 @@ volumes:
 networks:
   internal:
     driver: bridge
-  proxy:
+  global:
     external: true
