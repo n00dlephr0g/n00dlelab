@@ -10,9 +10,7 @@ services:
       # Add any other Stream port you want to expose
       # - '21:21' # FTP
 
-    networks:
-      - proxy
-      - prometheus
+    networks: [global]
 
     environment:
       TZ: "Australia/Melbourne"
@@ -31,7 +29,5 @@ services:
       - /persist/letsencrypt:/etc/letsencrypt
 
 networks:
-  proxy:
-    external: true
-  prometheus:
+  global:
     external: true
