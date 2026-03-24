@@ -5,8 +5,7 @@ services:
     ports:
       - 3000:3000
     user: 1000:1000
-    networks:
-      - proxy
+    networks: [global]
     volumes:
       - ./config:/app/config # Make sure your local config directory exists
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
@@ -14,5 +13,5 @@ services:
       HOMEPAGE_ALLOWED_HOSTS: phr0gw0rld.com # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
 
 networks:
-  proxy:
+  global:
     external: true
