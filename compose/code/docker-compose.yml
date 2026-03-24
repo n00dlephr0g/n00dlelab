@@ -1,7 +1,6 @@
 services:
   code-server:
-    # image: lscr.io/linuxserver/code-server:latest
-    build: .
+    image: lscr.io/linuxserver/code-server:latest
     container_name: code
     hostname: scallop-code
     environment:
@@ -15,9 +14,8 @@ services:
     ports:
       - ${PORT}:8443
     restart: unless-stopped
-    networks:
-      - proxy
+    networks: [global]
 
 networks:
-  proxy:
+  global:
     external: true
