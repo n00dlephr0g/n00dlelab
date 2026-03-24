@@ -1,0 +1,43 @@
+services:
+  # UI dashboard
+  dashboard:
+    image: netbirdio/dashboard:latest
+    container_name: netbird_dashboard
+    restart: unless-stopped
+    networks: [netbird, proxy]
+    ports:
+      - '0.0.0.0:8080:80'
+    env_file:
+      - ./dashboard.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+  # Combined server (Management + Signal + Relay + STUN)
+  netbird_server:
+    image: netbirdio/netbird-server:latest
+    container_name: netbird_server
+    restart: unless-stopped
+    networks: [netbird, proxy]
+    ports:
+      - '0.0.0.0:8081:80'
+      - '3478:3478/udp'
+    volumes:
+      - netbird_data:/var/lib/netbird
+      - ./config.yaml:/etc/netbird/config.yaml
+    command: ["--config", "/etc/netbird/config.yaml"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+volumes:
+  netbird_data:
+
+networks:
+  netbird:
+  proxy:
+    external: true
